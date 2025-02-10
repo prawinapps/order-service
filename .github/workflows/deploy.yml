@@ -13,9 +13,10 @@ jobs:
     runs-on:
       ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: step-1 
+        uses: actions/checkout@v3
       
-      - name: run a one line script
+      - name: step 2
         run: | 
           echo Hello World!!!
           echo Hello ${{ env.name }}
@@ -23,7 +24,7 @@ jobs:
         env:
           name: prawin
           
-      - name: run multiline script
+      - name: step 3 run multiline script
         run: |
           echo line 1
           echo line 2

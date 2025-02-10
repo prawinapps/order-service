@@ -16,13 +16,19 @@ jobs:
       id-token: write
       contents: read
     steps:
+      - name: find environment
+        run: |
+          if: github.ref == 'refs/heads/master'
+          echo "environment=arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role" >> $GITHUB_ENV
+          if: github.ref == 'refs/heads/develop'
+          echo "environment=arn:aws:iam::123:role/github-actions-cloudformation-deploy-role" >> $GITHUB_ENV
+          echo Environment $ {{ env.environment }}
+      
       - name: configure AWS credentials
+        id: credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          if: github.ref == 'refs/heads/master'
-          role-to-assume: arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role
-          if: github.ref == 'refs/heads/develop'
-          role-to-assume: arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role
+          role-to-assume: ${{ env.environment}}
           role-session-name: DeployInfra
           aws-region: us-east-1
           

@@ -42,6 +42,6 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: $ {{ env.environment }}-infra
-          template: cftemplates/infra.yml
+          template: ./cftemplates/infra.yml
           role-arn: arn:aws:iam::${{ steps.credentials.outputs.aws-account-id }}:role/github-actions-cloudformation-stack-role
           no-fail-on-empty-changeset: "1"

@@ -48,3 +48,12 @@ jobs:
           template: cloudformation-templates/infrastructure.yml
           role-arn: arn:aws:iam::${{ steps.credentials.outputs.aws-account-id }}:role/github-actions-cloudformation-stack-role
           no-fail-on-empty-changeset: "1"
+          
+      - name: deploy IAM roles
+        id: infra
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: infrastructure
+          template: cloudformation-templates/iam.yml
+          role-arn: arn:aws:iam::${{ steps.credentials.outputs.aws-account-id }}:role/github-actions-cloudformation-stack-role
+          no-fail-on-empty-changeset: "1"

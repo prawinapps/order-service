@@ -17,12 +17,12 @@ jobs:
         uses: actions/checkout@v3
       
       - name: step 2
+        env:
+          name: prawin
         run: | 
           echo Hello World!!!
           echo Hello ${{ env.name }}
           echo "colour=yellow" >> $GITHUB_ENV
-        env:
-          name: prawin
           
       - name: step 3 run multiline script
         run: |

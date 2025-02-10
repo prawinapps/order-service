@@ -12,6 +12,9 @@ jobs:
   provision-infra:
     runs-on:
       ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: configure AWS credentials
         id: credentials

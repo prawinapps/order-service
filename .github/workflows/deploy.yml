@@ -15,6 +15,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    if: github.ref == 'refs/heads/master')
     steps:
       - name: configure AWS credentials
         id: credentials

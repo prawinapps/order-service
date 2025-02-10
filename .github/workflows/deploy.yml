@@ -22,17 +22,17 @@ jobs:
       - name: find environment
         run: |
           if [ ${{ github.ref }} == 'refs/heads/master' ]; then
-          echo "environment=arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role" >> $GITHUB_ENV
+          echo "role=arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role" >> $GITHUB_ENV
           elif [ ${{ github.ref }} == 'refs/heads/dev' ]; then
-          echo "environment=arn:aws:iam::123:role/github-actions-cloudformation-deploy-role" >> $GITHUB_ENV
-          echo Environment $ {{ env.environment }}
+          echo "role=arn:aws:iam::123:role/github-actions-cloudformation-deploy-role" >> $GITHUB_ENV
+          echo Role $ {{ env.role }}
           fi
       
       - name: configure AWS credentials
         id: credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ env.environment}}
+          role-to-assume: ${{ env.role}}
           role-session-name: DeployInfra
           aws-region: us-east-1
           
@@ -44,7 +44,7 @@ jobs:
         id: infra
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: $ {{ env.environment }}-infra
+          name: infra
           template: cloudformation-templates/infrastructure.yml
           role-arn: arn:aws:iam::${{ steps.credentials.outputs.aws-account-id }}:role/github-actions-cloudformation-stack-role
           no-fail-on-empty-changeset: "1"

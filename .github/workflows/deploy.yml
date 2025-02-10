@@ -1,0 +1,25 @@
+name: deploy order service to AWS Fargate
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+    
+job:
+  build-app:
+    runs-on:
+      ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: run a one line script
+        run: echo Hello World!!!
+        
+      - name: run multiline script
+        run: |
+          echo line 1
+          echo line 2
+  
+    
+ 

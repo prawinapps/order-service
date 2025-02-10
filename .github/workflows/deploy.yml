@@ -9,16 +9,23 @@ on:
   workflow_dispatch: # to manually run workflow
     
 jobs:
-  provision-infra-uat:
+  provision-infra:
     runs-on:
       ubuntu-latest
     permissions:
       id-token: write
       contents: read
-    if: github.ref == 'refs/heads/develop'
     steps:
-      - name: configure AWS credentials
-        id: credentials
+      - name: configure AWS uat credentials
+        if: github.ref == 'refs/heads/develop'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role
+          role-session-name: DeployInfra
+          aws-region: us-east-1
+          
+      - name: configure AWS prod credentials
+        if: github.ref == 'refs/heads/master'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role
@@ -27,27 +34,7 @@ jobs:
           
       - name: get account id
         run: |
-          echo ${{ steps.credentials.outputs.aws-account-id }}
-          
-  provision-infra-prod:
-    runs-on:
-      ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - name: configure AWS credentials
-        id: credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role
-          role-session-name: DeployInfra
-          aws-region: us-east-1
-          
-      - name: get account id
-        run: |
-          echo ${{ steps.credentials.outputs.aws-account-id }}
+          echo ${{ steps.outputs.aws-account-id }}
         
         
         

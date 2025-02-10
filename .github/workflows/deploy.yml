@@ -9,15 +9,15 @@ on:
   workflow_dispatch: # to manually run workflow
     
 jobs:
-  provision-infra:
+  provision-infra-uat:
     runs-on:
       ubuntu-latest
     permissions:
       id-token: write
       contents: read
+    if: github.ref == 'refs/heads/develop'
     steps:
-      - name: configure AWS credentials UAT
-        if: github.ref == 'refs/heads/develop'
+      - name: configure AWS credentials
         id: credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -25,8 +25,19 @@ jobs:
           role-session-name: DeployInfra
           aws-region: us-east-1
           
-      - name: configure AWS credentials PROD
-        if: github.ref == 'refs/heads/master'
+      - name: get account id
+        run: |
+          echo ${{ steps.credentials.outputs.aws-account-id }}
+          
+  provision-infra-prod:
+    runs-on:
+      ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: configure AWS credentials
         id: credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:

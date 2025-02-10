@@ -9,26 +9,24 @@ on:
   workflow_dispatch: # to manually run workflow
     
 jobs:
-  build-app:
+  provision-infra:
     runs-on:
       ubuntu-latest
     steps:
-      - name: step-1 
-        uses: actions/checkout@v3
-      
-      - name: step 2
-        env:
-          name: prawin
-        run: | 
-          echo Hello World!!!
-          echo Hello ${{ env.name }}
-          echo "colour=yellow" >> $GITHUB_ENV
+      - name: configure AWS credentials
+        id: credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role
+          role-session-name: DeployInfra
+          aws-region: us-east-1
           
-      - name: step 3 run multiline script
+      - name: get account id
         run: |
-          echo line 1
-          echo line 2
-          echo ${{ env.colour }}
+          echo ${{ steps.credentials.outputs.aws-account-id }}
+        
+        
+        
   
     
  

@@ -16,25 +16,19 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: configure AWS uat credentials
-        if: github.ref == 'refs/heads/develop'
+      - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
+          if: github.ref == 'refs/heads/master'
           role-to-assume: arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role
-          role-session-name: DeployInfra
-          aws-region: us-east-1
-          
-      - name: configure AWS prod credentials
-        if: github.ref == 'refs/heads/master'
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
+          if: github.ref == 'refs/heads/develop'
           role-to-assume: arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role
           role-session-name: DeployInfra
           aws-region: us-east-1
           
       - name: get account id
         run: |
-          echo ${{ steps.outputs.aws-account-id }}
+          echo ${{ steps.credentials.outputs.aws-account-id }}
         
         
         

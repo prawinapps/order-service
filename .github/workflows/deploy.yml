@@ -18,9 +18,9 @@ jobs:
     steps:
       - name: find environment
         run: |
-          if: github.ref == 'refs/heads/master'
+          if [ ${{ github.ref }} == 'refs/heads/master' ]; then
           echo "environment=arn:aws:iam::183295410578:role/github-actions-cloudformation-deploy-role" >> $GITHUB_ENV
-          if: github.ref == 'refs/heads/develop'
+          elif [ ${{ github.ref }} == 'refs/heads/dev' ]; then
           echo "environment=arn:aws:iam::123:role/github-actions-cloudformation-deploy-role" >> $GITHUB_ENV
           echo Environment $ {{ env.environment }}
       

@@ -23,6 +23,7 @@ jobs:
           elif [ ${{ github.ref }} == 'refs/heads/dev' ]; then
           echo "environment=arn:aws:iam::123:role/github-actions-cloudformation-deploy-role" >> $GITHUB_ENV
           echo Environment $ {{ env.environment }}
+          fi
       
       - name: configure AWS credentials
         id: credentials

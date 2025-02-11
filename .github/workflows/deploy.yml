@@ -89,8 +89,8 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          #echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
-          IMAGE_PARAM="image=${{ steps.build-image.outputs.image }}"
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
+          IMAGE_PARAM="imageurl=${{ steps.build-image.outputs.image }}"
           echo "params=$PARAMS,$IMAGE_PARAM",$ENV_NAME >> $GITHUB_OUTPUT
           
           

@@ -1,6 +1,11 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: container on ecs cluster
 
+Parameters:
+  ImageUrl:
+    Type: String
+    Description: The URL of the Docker image that contains the Java application
+
 Resources:
   Task:
     Type: AWS::ECS::TaskDefinition

@@ -99,10 +99,9 @@ jobs:
 
           # Add dynamic parameters 
           IMAGE_PARAM="ImageUrl=${{ steps.build-image.outputs.image }}"
-          ENV_NAME="EnvironmentName=${{ needs.deploy-infrastructure.outputs.env-name }}"
 
           # Combine static and dynamic parameters
-          echo "params=$PARAMS,$IMAGE_PARAM",$ENV_NAME >> $GITHUB_OUTPUT          
+          echo "params=$IMAGE_PARAM" >> $GITHUB_OUTPUT          
           
       - name: deploy service
         id: service

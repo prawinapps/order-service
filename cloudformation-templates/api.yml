@@ -40,7 +40,7 @@ Resources:
       TaskDefinition: !Ref Task
       Cluster: !ImportValue "ECSCluster"
       LaunchType: FARGATE
-      DesiredCount: 2
+      DesiredCount: 0
       DeploymentConfiguration:
         MaximumPercent: 200
         MinimumHealthyPercent: 70

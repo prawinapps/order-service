@@ -66,3 +66,27 @@ jobs:
           template: cloudformation-templates/app-cluster.yml
           role-arn: arn:aws:iam::${{ steps.credentials.outputs.aws-account-id }}:role/github-actions-cloudformation-stack-role
           no-fail-on-empty-changeset: "1"
+          
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Build and package Java application
+        run: mvn clean package
+        
+      - name: Login ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push Java application image
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: order-service
+          IMAGE_TAG: order-service-${{ github.sha }}
+        run: |
+          #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> "$GITHUB_OUTPUT"

@@ -62,7 +62,7 @@ jobs:
         id: cluster
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: ecs cluster
+          name: ecs-cluster
           template: cloudformation-templates/app-cluster.yml
           role-arn: arn:aws:iam::${{ steps.credentials.outputs.aws-account-id }}:role/github-actions-cloudformation-stack-role
           no-fail-on-empty-changeset: "1"

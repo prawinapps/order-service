@@ -62,7 +62,7 @@ Resources:
     Properties:
       Name: order-service
       VpcId: !ImportValue VPC
-      Port: 80
+      Port: 8081
       Protocol: HTTP
       Matcher:
         HttpCode: 200-299
